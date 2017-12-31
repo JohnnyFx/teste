@@ -67,7 +67,7 @@
         {{ csrf_field() }}
         <div class="row">
             <div class="input-field col s12">
-            <i class="material-icons prefix">account_circle</i>
+            <i class="material-icons prefix">list</i>
             <input id="descricao" type="text" name="descricao" class="validate">
             <label for="descricao">Descrição</label>
             </div>

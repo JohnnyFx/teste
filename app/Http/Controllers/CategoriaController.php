@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Categoria;
-         
+use App\Produto;
+
 use Illuminate\Support\Facades\DB;
 
 use App\Http\Requests;
@@ -44,10 +45,17 @@ class CategoriaController extends Controller
         $id = $request->input('id');
         $categoria = Categoria::find($id);
         
-      if(!empty($categoria['foto'])){
-        $this->removeImage($categoria['foto']);    
-      }
-        $categoria->delete();
+        if(!empty($categoria['foto'])){
+          $this->removeImage($categoria['foto']);    
+        }
+
+        $produtos = Produto::where('categoria_id',"=",$categoria->id)->get()->count();
+
+
+        if($produtos <= 0){
+          $categoria->delete();
+        }
+      
 
         return redirect("/categoria");
        
@@ -82,9 +90,6 @@ class CategoriaController extends Controller
           }
 
           $categoria->foto = $this->storeImage($request);
-
-
-
 
         }
 
