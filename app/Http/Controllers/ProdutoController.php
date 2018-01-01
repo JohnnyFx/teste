@@ -132,21 +132,24 @@ class ProdutoController extends Controller
       return view('produto.index',['produtos' => $produtos,"categorias"=>$categorias]);
     }
 
-    public function listar(Request $request){
-     
+    public function listar(){
 
-      $uname =  $_SERVER['PHP_AUTH_USER'];
-      $password = $_SERVER['PHP_AUTH_PW'];
-      
-      if (Auth::attempt(array('username' => $uname, 'password' => $password))){
-            $produtos = Produto::get();
-            return $produtos;
-      }
-      else {        
-         return response('Login incorreto', 401);
-      }
-
+      if((isset($_SERVER['PHP_AUTH_USER'])) && isset($_SERVER['PHP_AUTH_PW'] )){
+        $uname =  $_SERVER['PHP_AUTH_USER'];
+        $password = $_SERVER['PHP_AUTH_PW'];
+        
+        if (Auth::attempt(array('username' => $uname, 'password' => $password))){
+              $produtos = Produto::get();
+              return $produtos;
+        }
+        else {        
+           return response('Login incorreto', 401);
+        } 
+     }else{
+        return response('Parametros não preenchidos', 401);
      }
+
+    }
 
 
     public function storeImage($foto){
